@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+
+  
+
+  
+  
+  
+
+  
+
+  <script type="text/javascript" src="/js/lib/dummy.js"></script>
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" type="text/css" href="/css/result-light.css">
+  
+
+  
+
+  <style type="text/css">
+    
+  </style>
+
+  <title> by philipjuhl</title>
+
+  
+    
+
+
+
+
+
+<script type="text/javascript">//<![CDATA[
+
+var Life;
+var Sentences = Array("CODING PIRATES", "GÅ IKKE OVER ÅEN EFTER VAND", "RØD GRØD MED FLØDE", "KAPTAJN HACK");
+var Sentence = NewSentence(Sentences);
+var ReplaceLetters = GenerateAllLetters();
+var WordGuessed;
+
+window.onload = function() {
+  ResetWord();
+};
+
+function ResetWord() {
+  Sentence = NewSentence(Sentences);
+  ReplaceLetters = GenerateAllLetters();
+  Life = 5;
+  WordGuessed = false;
+  var text = GeneratePrintedText(Sentence);
+  UpdateIsWordGuessed(text);
+  UpdateWordText(text);
+  UpdateScore(Life);
+  UpdateLettersLeft(ReplaceLetters);
+}
+
+function UpdateWordText(sentence) {
+  document.getElementById("sentenceToGuess").innerHTML = sentence;
+}
+
+function UpdateScore(life) {
+
+  document.getElementById("score0").style.display = "none";
+  document.getElementById("score1").style.display = "none";
+  document.getElementById("score2").style.display = "none";
+  document.getElementById("score3").style.display = "none";
+  document.getElementById("score4").style.display = "none";
+  document.getElementById("score5").style.display = "none";
+
+  var elementToShow;
+  switch (life) {
+    case 5:
+      var elementToShow = document.getElementById("score5");
+      break;
+    case 4:
+      var elementToShow = document.getElementById("score4");
+      break;
+    case 3:
+      var elementToShow = document.getElementById("score3");
+      break;
+    case 2:
+      var elementToShow = document.getElementById("score2");
+      break;
+    case 1:
+      var elementToShow = document.getElementById("score1");
+      break;
+    case 0:
+      var elementToShow = document.getElementById("score0");
+      break;
+
+  }
+  elementToShow.style.display = "block";
+}
+
+function UpdateLettersLeft(replaceLetters) {
+  document.getElementById("lettersLeft").innerHTML = replaceLetters;
+}
+
+function Letter(letter) {
+  if(Life === 0) {
+    return;
+  }
+  letter = letter.toUpperCase();
+  var index = ReplaceLetters.indexOf(letter);
+  if (index > -1) {
+    ReplaceLetters.splice(index, 1);
+    if (!LetterExists(letter, Sentence))
+      Life--;
+    var text = GeneratePrintedText(Sentence);
+    UpdateIsWordGuessed(text);
+    UpdateWordText(text);
+    UpdateScore(Life);
+    UpdateLettersLeft(ReplaceLetters);
+        
+  }
+  document.getElementById("letter").value = "";
+}
+
+function NewSentence(sentences) {
+  return sentences[Math.floor(Math.random() * sentences.length)];
+}
+
+function GenerateAllLetters() {
+  return 'ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ'.split('');
+}
+
+function LetterExists(letter, sentence) {
+  return sentence.indexOf(letter) > -1;
+}
+
+function GeneratePrintedText(sentence, guessedLetters) {
+  ReplaceLetters.forEach(function(entry) {
+    re = new RegExp(entry, "g");
+    sentence = sentence.replace(re, "_");
+  });
+  return sentence;
+}
+
+function UpdateIsWordGuessed(text) {
+  var re = new RegExp("_","g");
+  var guessed = (text.match(re) || []).length === 0;
+  if(guessed) {
+    document.getElementById("guessed").style.display = "block";  
+  } else {
+    document.getElementById("guessed").style.display = "none";    
+  }
+
+}
+//]]> 
+
+</script>
+
+  
+</head>
+
+<body>
+  <h1>Hangman</h1>
+
+<p id="sentenceToGuess"></p>
+
+<form onsubmit="return false;">
+  <input type="Text" name="letter" id="letter" maxlength="1">
+  <input type="button" value="Try Letter" onclick="Letter(this.form.letter.value);">
+</form>
+
+<form onsubmit="return false;">
+  <input type="button" value="Reset" onclick="ResetWord();">
+</form>
+
+<p id="score5">5</p>
+<p id="score4">4</p>
+<p id="score3">3</p>
+<p id="score2">2</p>
+<p id="score1">1</p>
+<p id="score0">Game Over</p>
+
+<p id="lettersLeft"></p>
+
+<p id="guessed">CORRECT</p>
+
+  
+  <script>
+  // tell the embed parent frame the height of the content
+  if (window.parent && window.parent.parent){
+    window.parent.parent.postMessage(["resultsFrame", {
+      height: document.body.getBoundingClientRect().height,
+      slug: "a3o9not5"
+    }], "*")
+  }
+</script>
+
+</body>
+
+</html>
+
